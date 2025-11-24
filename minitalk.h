@@ -17,5 +17,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+void process_signal(int sig);
+void check_signal(int i);
+void move_bit(int pid, unsigned char c);
 
 #endif
