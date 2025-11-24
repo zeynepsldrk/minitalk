@@ -10,3 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minitalk.h"
+
+int main(int ac, char **av)
+{
+    int pid;
+    int i;
+
+    if (ac != 3)
+        exit(1);
+    else
+    {
+        pid = av[1];
+        i = 0;
+        while (!av[2][i])
+        {
+            move_bit(pid, av[2][i]);
+            i++;
+        }
+    }
+    return (0);
+}
