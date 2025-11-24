@@ -20,10 +20,10 @@ void check_signal(int i)
 
 void process_signal(int sig)
 {
-    static char current_bit;
+    static unsigned char current_bit;
     static int bit_count;
 
-    else if (sig == SIGUSR2)
+    if (sig == SIGUSR2)
         current_bit |= (1 << (7 - bit_count));
     bit_count++;
     if (bit_count == 8)
@@ -41,12 +41,11 @@ int main(void)
     sig.sa_handler = process_signal;
     sig.sa_flags = 0;
     sigemptyset(&sig.sa_mask);
-    sigaddset(SIGUSR1);
-    sigaddset(SIGUSR2);
+    sigaddset(&sig.sa_mask, SIGUSR1);
+    sigaddset(&sig.sa_mask, SIGUSR2);
     ft_putnbr_fd(getpid(), 1);
-    sigaction(SIGUSR1, &sig, NULL);
+    write(1, "\n", 1);
     check_signal(sigaction(SIGUSR1, &sig, NULL));
-    sigaction(SIGUSR2, &sig, NULL);
     check_signal(sigaction(SIGUSR2, &sig, NULL));
     while (1)
         pause();
