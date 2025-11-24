@@ -12,6 +12,25 @@
 
 #include "minitalk.h"
 
+void move_bit(int pid, unsigned char c)
+{
+    int i;
+    int captured_bit;
+
+    i = 7;
+    while (i >= 0)
+    {
+        captured_bit = (c >> i) & 1;
+        if (captured_bit == 0)
+            kill(pid, SIGUSR1);
+        else if (captured_bit == 1)
+            kill(pid, SIGUSR2);
+            usleep(100);
+        i--;
+    }
+    
+}
+
 int main(int ac, char **av)
 {
     int pid;
@@ -21,9 +40,9 @@ int main(int ac, char **av)
         exit(1);
     else
     {
-        pid = av[1];
+        pid = ft_atoi(av[1]);
         i = 0;
-        while (!av[2][i])
+        while (av[2][i])
         {
             move_bit(pid, av[2][i]);
             i++;
