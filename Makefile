@@ -1,37 +1,41 @@
-SERVER_SRCS	= server.c minitalk_utils.c
-CLIENT_SRCS	= client.c minitalk_utils.c
-SERVER_OBJS	= $(SERVER_SRCS:.c=.o)
-CLIENT_OBJS	= $(CLIENT_SRCS:.c=.o)
-SERVER		= server
-CLIENT		= client
-CC			= cc
-RM			= rm -f
-CFLAGS		= -Wall -Wextra -Werror
-HEADER		= minitalk.h
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 
-all:		$(SERVER) $(CLIENT)
+SERVER = server
+CLIENT = client
 
-$(SERVER):	$(SERVER_OBJS)
-			$(CC) $(CFLAGS) $(SERVER_OBJS) -o $(SERVER)
+SERVER_SRC = server.c minitalk_utils.c
+CLIENT_SRC = client.c minitalk_utils.c
 
-$(CLIENT):	$(CLIENT_OBJS)
-			$(CC) $(CFLAGS) $(CLIENT_OBJS) -o $(CLIENT)
+BONUS_SERVER_SRC = server_bonus.c minitalk_utils_bonus.c
+BONUS_CLIENT_SRC = client_bonus.c minitalk_utils_bonus.c
 
-server.o:	server.c $(HEADER)
-			$(CC) $(CFLAGS) -c server.c -o server.o
+SERVER_OBJS = server.o minitalk_utils.o
+CLIENT_OBJS = client.o minitalk_utils.o
+BONUS_SERVER_OBJS = server_bonus.o minitalk_utils_bonus.o
+BONUS_CLIENT_OBJS = client_bonus.o minitalk_utils_bonus.o
 
-client.o:	client.c $(HEADER)
-			$(CC) $(CFLAGS) -c client.c -o client.o
+all: $(SERVER) $(CLIENT)
 
-minitalk_utils.o:	minitalk_utils.c $(HEADER)
-					$(CC) $(CFLAGS) -c minitalk_utils.c -o minitalk_utils.o
+$(SERVER): $(SERVER_OBJS)
+	$(CC) $(CFLAGS) -o $(SERVER) $(SERVER_OBJS)
+
+$(CLIENT): $(CLIENT_OBJS)
+	$(CC) $(CFLAGS) -o $(CLIENT) $(CLIENT_OBJS)
+
+bonus: $(BONUS_SERVER_OBJS) $(BONUS_CLIENT_OBJS)
+	$(CC) $(CFLAGS) -o $(SERVER) $(BONUS_SERVER_OBJS)
+	$(CC) $(CFLAGS) -o $(CLIENT) $(BONUS_CLIENT_OBJS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-			$(RM) $(SERVER_OBJS) $(CLIENT_OBJS)
+	rm -f *.o
 
-fclean:		clean
-			$(RM) $(SERVER) $(CLIENT)
+fclean: clean
+	rm -f $(SERVER) $(CLIENT)
 
-re:			fclean all
+re: fclean all
 
-.PHONY:		all clean fclean re
+.PHONY: all bonus clean fclean re
