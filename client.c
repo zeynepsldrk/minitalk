@@ -23,9 +23,9 @@ void move_bit(int pid, unsigned char c)
         captured_bit = (c >> i) & 1;
         if (captured_bit == 0)
             kill(pid, SIGUSR1);
-        else if (captured_bit == 1)
+        else
             kill(pid, SIGUSR2);
-            usleep(100);
+        usleep(300);
         i--;
     }
     
@@ -49,6 +49,7 @@ int main(int ac, char **av)
             move_bit(pid, av[2][i]);
             i++;
         }
+        move_bit(pid, av[2][i]);
     }
     return (0);
 }
