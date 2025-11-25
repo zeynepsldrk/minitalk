@@ -41,6 +41,8 @@ int main(int ac, char **av)
     else
     {
         pid = ft_atoi(av[1]);
+        if (pid < 0)
+            exit(1);
         i = 0;
         while (av[2][i])
         {
