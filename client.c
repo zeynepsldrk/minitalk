@@ -25,7 +25,7 @@ void move_bit(int pid, unsigned char c)
             kill(pid, SIGUSR1);
         else
             kill(pid, SIGUSR2);
-        usleep(300);
+        usleep(400);
         i--;
     }
     
