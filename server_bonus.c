@@ -1,0 +1,46 @@
+#include "minitalk_bonus.h"
+
+void check_signal(int i)
+{
+    if (i == -1)
+        exit(1);
+}
+
+void process_signal(int sig)
+{
+    static unsigned char current_bit;
+    static int bit_count;
+
+    if (sig == SIGUSR2)
+        current_bit |= (1 << (7 - bit_count));
+    bit_count++;
+    if (bit_count == 8)
+    {
+        write(1, &current_bit,1);
+        if (current_bit == '\0')
+            write(1, "\n", 1);
+        current_bit = 0;
+        bit_count = 0;
+    }
+}
+
+int main(void)
+{
+    struct sigaction sig;
+
+    sig.sa_handler = process_signal;
+    sig.sa_flags = 0;
+    sigemptyset(&sig.sa_mask);
+    sigaddset(&sig.sa_mask, SIGUSR1);
+    sigaddset(&sig.sa_mask, SIGUSR2);
+    if (getpid() >= 0)
+        ft_putnbr_fd(getpid(), 1);
+    else
+        exit(1);
+    write(1, "\n", 1);
+    check_signal(sigaction(SIGUSR1, &sig, NULL));
+    check_signal(sigaction(SIGUSR2, &sig, NULL));
+    while (1)
+        pause();
+    return (0);
+}
