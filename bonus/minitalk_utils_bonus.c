@@ -1,5 +1,11 @@
 #include "minitalk_bonus.h"
 
+void checker(int i)
+{
+    if (i == -1)
+        exit(1);
+}
+
 static void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);

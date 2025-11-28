@@ -1,5 +1,10 @@
 #include "minitalk_bonus.h"
 
+void move_again(int signal)
+{
+    (void)signal;
+}
+
 void move_bit(int pid, unsigned char c)
 {
     int i;
@@ -10,13 +15,12 @@ void move_bit(int pid, unsigned char c)
     {
         captured_bit = (c >> i) & 1;
         if (captured_bit == 0)
-            kill(pid, SIGUSR1);
+            checker(kill(pid, SIGUSR1));
         else
-            kill(pid, SIGUSR2);
-        usleep(400);
+            checker(kill(pid, SIGUSR2));
+        pause();
         i--;
     }
-    
 }
 
 int main(int ac, char **av)
@@ -26,18 +30,17 @@ int main(int ac, char **av)
 
     if (ac != 3)
         exit(1);
-    else
+    pid = ft_atoi(av[1]);
+    if (pid <= 0)
+        exit(1);
+    if ((signal(SIGUSR1, move_again)) == SIG_ERR)
+        exit(1);
+    i = 0;
+    while (av[2][i])
     {
-        pid = ft_atoi(av[1]);
-        if (pid < 0)
-            exit(1);
-        i = 0;
-        while (av[2][i])
-        {
-            move_bit(pid, av[2][i]);
-            i++;
-        }
         move_bit(pid, av[2][i]);
+        i++;
     }
+    move_bit(pid, '\0');
     return (0);
 }
