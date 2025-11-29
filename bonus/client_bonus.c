@@ -1,8 +1,11 @@
 #include "minitalk_bonus.h"
 
+static int valid;
+
 void move_again(int signal)
 {
     (void)signal;
+    valid = 1;
 }
 
 void move_bit(int pid, unsigned char c)
@@ -13,12 +16,14 @@ void move_bit(int pid, unsigned char c)
     i = 7;
     while (i >= 0)
     {
+        valid = 0;
         captured_bit = (c >> i) & 1;
         if (captured_bit == 0)
             checker(kill(pid, SIGUSR1));
         else
             checker(kill(pid, SIGUSR2));
-        pause();
+        while (!valid)
+            pause();
         i--;
     }
 }
