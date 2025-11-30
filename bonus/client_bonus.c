@@ -6,7 +6,7 @@
 /*   By: zedurak <zedurak@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 16:52:25 by zedurak           #+#    #+#             */
-/*   Updated: 2025/11/29 17:59:19 by zedurak          ###   ########.fr       */
+/*   Updated: 2025/11/30 19:29:14 by zedurak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	move_bit(int pid, unsigned char c)
 			checker(kill(pid, SIGUSR2));
 		while (!g_valid)
 			pause();
+		if (g_valid == 1)
+			write(1, "Approved\n",9);
 		i--;
 	}
 }
@@ -44,14 +46,16 @@ int	main(int ac, char **av)
 {
 	int	pid;
 	int	i;
+	struct sigaction	sig;
 
 	if (ac != 3)
 		exit(1);
 	pid = ft_atoi(av[1]);
 	if (pid <= 0)
 		exit(1);
-	if ((signal(SIGUSR1, move_again)) == SIG_ERR)
-		exit(1);
+	sig.sa_handler = move_again;
+	sig.sa_flags = 0;
+	checker(sigaction(SIGUSR1, &sig, NULL));
 	i = 0;
 	while (av[2][i])
 	{
