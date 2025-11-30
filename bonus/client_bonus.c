@@ -6,7 +6,7 @@
 /*   By: zedurak <zedurak@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 16:52:25 by zedurak           #+#    #+#             */
-/*   Updated: 2025/11/30 19:29:14 by zedurak          ###   ########.fr       */
+/*   Updated: 2025/11/30 20:29:41 by zedurak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ void	move_bit(int pid, unsigned char c)
 		while (!g_valid)
 			pause();
 		if (g_valid == 1)
-			write(1, "Approved\n",9);
+			write(1, "Approved\n", 9);
 		i--;
 	}
 }
 
 int	main(int ac, char **av)
 {
-	int	pid;
-	int	i;
+	int					pid;
+	int					i;
 	struct sigaction	sig;
 
 	if (ac != 3)

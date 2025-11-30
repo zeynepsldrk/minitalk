@@ -6,7 +6,7 @@
 /*   By: zedurak <zedurak@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:25:39 by zedurak           #+#    #+#             */
-/*   Updated: 2025/11/30 16:21:11 by zedurak          ###   ########.fr       */
+/*   Updated: 2025/11/30 20:29:52 by zedurak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,3 @@ int	main(int ac, char **av)
 	move_bit(pid, '\0');
 	return (0);
 }
-
