@@ -1,17 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minitalk_utils_bonus.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zedurak <zedurak@student.42istanbul.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/29 17:02:22 by zedurak           #+#    #+#             */
+/*   Updated: 2025/11/29 17:49:12 by zedurak          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk_bonus.h"
 
-void checker(int i)
+void	checker(int i)
 {
-    if (i == -1)
-        exit(1);
+	if (i == -1)
+		exit(1);
 }
 
-static void	ft_putchar_fd(char c, int fd)
+static	void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
 }
 
-static void	ft_putstr_fd(char *s, int fd)
+static	void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
 

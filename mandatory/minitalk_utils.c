@@ -1,11 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minitalk_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zedurak <zedurak@student.42istanbul.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/29 16:45:17 by zedurak           #+#    #+#             */
+/*   Updated: 2025/11/30 16:23:24 by zedurak          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
-static void	ft_putchar_fd(char c, int fd)
+void	checker(int i)
+{
+	if (i == -1)
+		exit(1);
+}
+
+static	void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
 }
 
-static void	ft_putstr_fd(char *s, int fd)
+static	void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
 

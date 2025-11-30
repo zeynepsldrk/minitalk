@@ -1,55 +1,64 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.c                                         :+:      :+:    :+:   */
+/*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zedurak <zedurak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zedurak <zedurak@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:25:39 by zedurak           #+#    #+#             */
-/*   Updated: 2025/11/06 19:25:40 by zedurak          ###   ########.fr       */
+/*   Updated: 2025/11/30 16:21:11 by zedurak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void move_bit(int pid, unsigned char c)
-{
-    int i;
-    int captured_bit;
+static int	g_valid;
 
-    i = 7;
-    while (i >= 0)
-    {
-        captured_bit = (c >> i) & 1;
-        if (captured_bit == 0)
-            kill(pid, SIGUSR1);
-        else
-            kill(pid, SIGUSR2);
-        usleep(400);
-        i--;
-    }
-    
+void	move_again(int signal)
+{
+	(void)signal;
+	g_valid = 1;
 }
 
-int main(int ac, char **av)
+void	move_bit(int pid, unsigned char c)
 {
-    int pid;
-    int i;
+	int	i;
+	int	captured_bit;
 
-    if (ac != 3)
-        exit(1);
-    else
-    {
-        pid = ft_atoi(av[1]);
-        if (pid < 0)
-            exit(1);
-        i = 0;
-        while (av[2][i])
-        {
-            move_bit(pid, av[2][i]);
-            i++;
-        }
-        move_bit(pid, av[2][i]);
-    }
-    return (0);
+	i = 7;
+	while (i >= 0)
+	{
+		g_valid = 0;
+		captured_bit = (c >> i) & 1;
+		if (captured_bit == 0)
+			checker(kill(pid, SIGUSR1));
+		else
+			checker(kill(pid, SIGUSR2));
+		while (!g_valid)
+			pause();
+		i--;
+	}
 }
+
+int	main(int ac, char **av)
+{
+	int	pid;
+	int	i;
+
+	if (ac != 3)
+		exit(1);
+	pid = ft_atoi(av[1]);
+	if (pid <= 0)
+		exit(1);
+	if ((signal(SIGUSR1, move_again)) == SIG_ERR)
+		exit(1);
+	i = 0;
+	while (av[2][i])
+	{
+		move_bit(pid, av[2][i]);
+		i++;
+	}
+	move_bit(pid, '\0');
+	return (0);
+}
+
